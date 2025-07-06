@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+import 'package:flightapp/core/utils/errors/failure.dart';
 import 'package:flightapp/features/flight_search/domain/entities/flight.dart';
 import '../repositories/favorites_repository.dart';
 
@@ -6,7 +8,7 @@ class AddFavoriteUseCase {
 
   const AddFavoriteUseCase(this.repository);
 
-  Future<void> call(Flight favorite) async {
-    await repository.addFavorite(favorite);
+  Future<Either<Failure,String>> call(Flight favorite) async {
+  return  await repository.addFavorite(favorite);
   }
 }

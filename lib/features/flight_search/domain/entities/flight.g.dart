@@ -35,7 +35,7 @@ class FlightAdapter extends TypeAdapter<Flight> {
   @override
   void write(BinaryWriter writer, Flight obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(12)
       ..writeByte(1)
       ..write(obj.flightNumber)
       ..writeByte(2)

@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
 part 'flight.g.dart';
 
 
 @HiveType(typeId: 0)
-class Flight {
+class Flight extends Equatable{
   
   @HiveField(1)
   final String flightNumber;
@@ -62,6 +63,22 @@ class Flight {
     final classKey = travelClass.toLowerCase().replaceAll(' ', '_');
     return travelClasses![classKey]?.seatsAvailable ?? seatsAvailable;
   }
+  
+  @override
+  List<Object?> get props => [
+    flightNumber,
+    airline,
+    from,
+    to,
+    departure,
+    arrival,
+    price,
+    aircraft,
+    duration,
+    stops,
+    seatsAvailable,
+    travelClasses
+  ];
 }
 
 
