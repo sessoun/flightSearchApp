@@ -41,11 +41,28 @@ class FlightSearchNotifier extends StateNotifier<FlightSearchState> {
       flights: const AsyncValue.loading(),
       lastRequest: request,
     );
-    try {
+    
       final result = await useCase(request);
-      state = state.copyWith(flights: AsyncValue.data(result));
-    } catch (e, st) {
-      state = state.copyWith(flights: AsyncValue.error(e, st));
+    result.fold(
+      (failure) {
+        state = state.copyWith(
+          flights: AsyncValue.error(failure.message, StackTrace.current),
+        );
+      },
+      (flights) {
+        state = state.copyWith(
+          flights: AsyncValue.data(flights),
+        );
+      },  );
+    
+  }
+
+  //sorting by price
+  void sortFlightsByPrice() {
+    final flights = state.flights.value;
+    if (flights != null) {
+      flights.sort((a, b) => a.price.compareTo(b.price));
+      state = state.copyWith(flights: AsyncValue.data(flights));
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flightapp/features/flight_search/presentation/providers/flight_search_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,6 +46,8 @@ class _FlightSearchScreenState extends ConsumerState<FlightSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = ref.watch(flightSearchProvider);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -202,55 +205,87 @@ class _FlightSearchScreenState extends ConsumerState<FlightSearchScreen> {
                   width: double.infinity,
                   height: 52,
                   child: ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        // Combine date and time for departure
-                        DateTime departureDateTime = _selectedDate!;
-                        if (_selectedTime != null) {
-                          departureDateTime = DateTime(
-                            _selectedDate!.year,
-                            _selectedDate!.month,
-                            _selectedDate!.day,
-                            _selectedTime!.hour,
-                            _selectedTime!.minute,
-                          );
-                        }
+                    onPressed: provider.flights.isLoading
+                        ? DoNothingAction.new
+                        : () async {
+                            if (_formKey.currentState!.validate()) {
+                              // Combine date and time for departure
+                              DateTime departureDateTime = _selectedDate!;
+                              if (_selectedTime != null) {
+                                departureDateTime = DateTime(
+                                  _selectedDate!.year,
+                                  _selectedDate!.month,
+                                  _selectedDate!.day,
+                                  _selectedTime!.hour,
+                                  _selectedTime!.minute,
+                                );
+                              }
 
-                        final request = FlightSearchRequestModel(
-                          from: _fromController.text,
-                          to: _toController.text,
-                          date: departureDateTime,
-                          tripType: _tripType,
-                          directFlightsOnly: _directFlightsOnly,
-                          includeNearbyAirports: _includeNearbyAirports,
-                          travelClass: _travelClass,
-                          passengers: _passengers,
-                          returnDate: _tripType == 'Round trip'
-                              ? departureDateTime.add(const Duration(days: 7))
-                              : null, // Example return date
-                        );
+                              final request = FlightSearchRequestModel(
+                                from: _fromController.text,
+                                to: _toController.text,
+                                date: departureDateTime,
+                                tripType: _tripType,
+                                directFlightsOnly: _directFlightsOnly,
+                                includeNearbyAirports: _includeNearbyAirports,
+                                travelClass: _travelClass,
+                                passengers: _passengers,
+                                returnDate: _tripType == 'Round trip'
+                                    ? departureDateTime.add(
+                                        const Duration(days: 7),
+                                      )
+                                    : null, // Example return date
+                              );
 
-                        await ref
-                            .read(flightSearchProvider.notifier)
-                            .search(request);
-                        context.push('/search/result');
-                      }
-                    },
+                              await ref
+                                  .read(flightSearchProvider.notifier)
+                                  .search(request)
+                                  .then((_) {
+                                    if (!provider.flights.hasError) {
+                                      context.push('/search/result');
+                                    }
+                                  });
+                            }
+                          },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
+                      backgroundColor: provider.flights.isLoading
+                          ? null
+                          : Colors.blue,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(26),
                       ),
                       elevation: 0,
                     ),
-                    child: const Text(
-                      'Search Flights',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
+                    child: provider.flights.isLoading
+                        ? const Center(
+                            child: Row(
+                              spacing: 8,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  'Searching...',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SpinKitPulse(
+                                  color: Colors.white,
+                                  size: 20.0,
+                                  duration: Duration(milliseconds: 800),
+                                ),
+                              ],
+                            ),
+                          )
+                        : const Text(
+                            'Search Flights',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
                   ),
                 ),
               ],
@@ -260,8 +295,6 @@ class _FlightSearchScreenState extends ConsumerState<FlightSearchScreen> {
       ),
     );
   }
-
-  // ... helper methods (_buildDropdownField, _buildDateField, etc.) unchanged ...
 
   Widget _buildTypeAheadField({
     required TextEditingController controller,

@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+import 'package:flightapp/core/utils/errors/failure.dart';
 import 'package:flightapp/features/flight_search/domain/entities/flight.dart';
 import 'package:flightapp/features/flight_search/domain/entities/request.dart';
 import 'package:flightapp/features/flight_search/domain/repositories/flight_repository.dart';
@@ -11,7 +13,7 @@ class FlightRepositoryImpl implements FlightRepository {
   FlightRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<List<Flight>> searchFlights(FlightSearchRequest request) async {
+  Future<Either<Failure,List<Flight>>> searchFlights(FlightSearchRequest request) async {
     // Convert the FlightSearchRequest to FlightSearchRequestModel if needed
     final requestModel = FlightSearchRequestModel(
       from: request.from,
@@ -24,23 +26,28 @@ class FlightRepositoryImpl implements FlightRepository {
       tripType: request.tripType,
       includeNearbyAirports: request.includeNearbyAirports,
     );
-    final models = await remoteDataSource.searchFlights(requestModel);
-    return models
-        .map(
-          (e) => Flight(
-            flightNumber: e.flightNumber,
-            airline: e.airline,
-            from: e.from,
-            seatsAvailable: e.seatsAvailable,
-            to: e.to,
-            departure: e.departure,
-            arrival: e.arrival,
-            price: e.price,
-            aircraft: e.aircraft,
-            duration: e.duration,
-            stops: e.stops,
-          ),
-        )
-        .toList();
+    try {
+  final result = await remoteDataSource.searchFlights(requestModel);
+  var flights = result
+      .map(
+        (e) => Flight(
+          flightNumber: e.flightNumber,
+          airline: e.airline,
+          from: e.from,
+          seatsAvailable: e.seatsAvailable,
+          to: e.to,
+          departure: e.departure,
+          arrival: e.arrival,
+          price: e.price,
+          aircraft: e.aircraft,
+          duration: e.duration,
+          stops: e.stops,
+        ),
+      )
+      .toList();
+      return Right(flights);
+} on Exception catch (e) {
+  return Left(Failure(e.toString()));
+}
   }
 }

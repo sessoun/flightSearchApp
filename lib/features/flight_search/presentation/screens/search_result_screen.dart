@@ -185,7 +185,22 @@ class _SearchResultScreenState extends ConsumerState<SearchResultScreen> {
                     'Sort & Filter',
                     style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                   ),
-                  Icon(Icons.tune, color: Colors.grey[600], size: 20),
+                  GestureDetector(
+                    onTap: () {
+                      //sort by price
+                      ref
+                          .read(flightSearchProvider.notifier)
+                          .sortFlightsByPrice();
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Flights sorted by price'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    },
+                    child: Icon(Icons.tune, color: Colors.grey[600], size: 20),
+                  ),
                 ],
               ),
             ],
