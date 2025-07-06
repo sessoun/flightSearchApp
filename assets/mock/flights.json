@@ -1,0 +1,478 @@
+[
+  {
+    "flight_number": "UA101",
+    "airline": "United Airlines",
+    "from": "New York (NYC)",
+    "to": "London (LHR)",
+    "departure": "2025-07-10T08:00:00",
+    "arrival": "2025-07-10T20:00:00",
+    "price": 450.00,
+    "aircraft": "Boeing 787",
+    "duration": "7h 30m",
+    "stops": 0,
+    "seats_available": 25,
+    "travel_classes": {
+      "economy": {
+        "price": 450.00,
+        "seats_available": 15
+      },
+      "premium_economy": {
+        "price": 650.00,
+        "seats_available": 8
+      },
+      "business": {
+        "price": 1200.00,
+        "seats_available": 2
+      },
+      "first_class": {
+        "price": 2500.00,
+        "seats_available": 0
+      }
+    },
+    "is_direct": true,
+    "nearby_airports": ["JFK", "LGA", "EWR"],
+    "trip_types_supported": ["one_way", "round_trip", "multi_city"]
+  },
+  {
+    "flight_number": "BA202",
+    "airline": "British Airways",
+    "from": "London (LHR)",
+    "to": "Paris (CDG)",
+    "departure": "2025-07-11T12:00:00",
+    "arrival": "2025-07-11T13:00:00",
+    "price": 150.00,
+    "aircraft": "Airbus A320",
+    "duration": "1h",
+    "stops": 0,
+    "seats_available": 42,
+    "travel_classes": {
+      "economy": {
+        "price": 150.00,
+        "seats_available": 35
+      },
+      "premium_economy": {
+        "price": 280.00,
+        "seats_available": 7
+      },
+      "business": {
+        "price": 550.00,
+        "seats_available": 0
+      },
+      "first_class": {
+        "price": 950.00,
+        "seats_available": 0
+      }
+    },
+    "is_direct": true,
+    "nearby_airports": ["LGW", "STN", "LTN"],
+    "trip_types_supported": ["one_way", "round_trip", "multi_city"]
+  },
+  {
+    "flight_number": "DL303",
+    "airline": "Delta Airlines",
+    "from": "New York (NYC)",
+    "to": "London (LHR)",
+    "departure": "2025-07-10T14:30:00",
+    "arrival": "2025-07-11T02:00:00",
+    "price": 520.00,
+    "aircraft": "Boeing 777",
+    "duration": "8h 30m",
+    "stops": 1,
+    "seats_available": 18,
+    "travel_classes": {
+      "economy": {
+        "price": 520.00,
+        "seats_available": 12
+      },
+      "premium_economy": {
+        "price": 750.00,
+        "seats_available": 4
+      },
+      "business": {
+        "price": 1400.00,
+        "seats_available": 2
+      },
+      "first_class": {
+        "price": 2800.00,
+        "seats_available": 0
+      }
+    },
+    "is_direct": false,
+    "nearby_airports": ["JFK", "LGA", "EWR"],
+    "trip_types_supported": ["one_way", "round_trip", "multi_city"]
+  },
+  {
+    "flight_number": "AF404",
+    "airline": "Air France",
+    "from": "London (LHR)",
+    "to": "Paris (CDG)",
+    "departure": "2025-07-11T18:15:00",
+    "arrival": "2025-07-11T19:30:00",
+    "price": 180.00,
+    "aircraft": "Airbus A321",
+    "duration": "1h 15m",
+    "stops": 0,
+    "seats_available": 56,
+    "travel_classes": {
+      "economy": {
+        "price": 180.00,
+        "seats_available": 48
+      },
+      "premium_economy": {
+        "price": 320.00,
+        "seats_available": 6
+      },
+      "business": {
+        "price": 600.00,
+        "seats_available": 2
+      },
+      "first_class": {
+        "price": 1100.00,
+        "seats_available": 0
+      }
+    },
+    "is_direct": true,
+    "nearby_airports": ["LGW", "STN", "LTN"],
+    "trip_types_supported": ["one_way", "round_trip", "multi_city"]
+  },
+  {
+    "flight_number": "JL505",
+    "airline": "Japan Airlines",
+    "from": "Tokyo (NRT)",
+    "to": "Los Angeles (LAX)",
+    "departure": "2025-07-12T10:45:00",
+    "arrival": "2025-07-12T15:30:00",
+    "price": 680.00,
+    "aircraft": "Boeing 787",
+    "duration": "11h 45m",
+    "stops": 0,
+    "seats_available": 32,
+    "travel_classes": {
+      "economy": {
+        "price": 680.00,
+        "seats_available": 22
+      },
+      "premium_economy": {
+        "price": 950.00,
+        "seats_available": 6
+      },
+      "business": {
+        "price": 1800.00,
+        "seats_available": 3
+      },
+      "first_class": {
+        "price": 3200.00,
+        "seats_available": 1
+      }
+    },
+    "is_direct": true,
+    "nearby_airports": ["HND"],
+    "trip_types_supported": ["one_way", "round_trip", "multi_city"]
+  },
+  {
+    "flight_number": "EK606",
+    "airline": "Emirates",
+    "from": "Dubai (DXB)",
+    "to": "Singapore (SIN)",
+    "departure": "2025-07-12T23:55:00",
+    "arrival": "2025-07-13T11:40:00",
+    "price": 420.00,
+    "aircraft": "Airbus A380",
+    "duration": "7h 45m",
+    "stops": 0,
+    "seats_available": 67,
+    "travel_classes": {
+      "economy": {
+        "price": 420.00,
+        "seats_available": 45
+      },
+      "premium_economy": {
+        "price": 650.00,
+        "seats_available": 12
+      },
+      "business": {
+        "price": 1300.00,
+        "seats_available": 8
+      },
+      "first_class": {
+        "price": 2900.00,
+        "seats_available": 2
+      }
+    },
+    "is_direct": true,
+    "nearby_airports": ["DWC"],
+    "trip_types_supported": ["one_way", "round_trip", "multi_city"]
+  },
+  {
+    "flight_number": "LH707",
+    "airline": "Lufthansa",
+    "from": "Frankfurt (FRA)",
+    "to": "New York (NYC)",
+    "departure": "2025-07-13T09:20:00",
+    "arrival": "2025-07-13T12:15:00",
+    "price": 530.00,
+    "aircraft": "Boeing 747",
+    "duration": "8h 55m",
+    "stops": 0,
+    "seats_available": 39,
+    "travel_classes": {
+      "economy": {
+        "price": 530.00,
+        "seats_available": 28
+      },
+      "premium_economy": {
+        "price": 780.00,
+        "seats_available": 7
+      },
+      "business": {
+        "price": 1500.00,
+        "seats_available": 3
+      },
+      "first_class": {
+        "price": 3000.00,
+        "seats_available": 1
+      }
+    },
+    "is_direct": true,
+    "nearby_airports": ["CGN", "DUS"],
+    "trip_types_supported": ["one_way", "round_trip", "multi_city"]
+  },
+  {
+    "flight_number": "AA808",
+    "airline": "American Airlines",
+    "from": "Los Angeles (LAX)",
+    "to": "Tokyo (NRT)",
+    "departure": "2025-07-14T16:30:00",
+    "arrival": "2025-07-15T20:15:00",
+    "price": 720.00,
+    "aircraft": "Boeing 777",
+    "duration": "12h 45m",
+    "stops": 1,
+    "seats_available": 14,
+    "travel_classes": {
+      "economy": {
+        "price": 720.00,
+        "seats_available": 8
+      },
+      "premium_economy": {
+        "price": 1050.00,
+        "seats_available": 4
+      },
+      "business": {
+        "price": 2000.00,
+        "seats_available": 2
+      },
+      "first_class": {
+        "price": 3500.00,
+        "seats_available": 0
+      }
+    },
+    "is_direct": false,
+    "nearby_airports": ["BUR", "LGB", "SNA"],
+    "trip_types_supported": ["one_way", "round_trip", "multi_city"]
+  },
+  {
+    "flight_number": "SQ909",
+    "airline": "Singapore Airlines",
+    "from": "Singapore (SIN)",
+    "to": "Dubai (DXB)",
+    "departure": "2025-07-15T14:10:00",
+    "arrival": "2025-07-15T17:25:00",
+    "price": 380.00,
+    "aircraft": "Airbus A350",
+    "duration": "7h 15m",
+    "stops": 0,
+    "seats_available": 51,
+    "travel_classes": {
+      "economy": {
+        "price": 380.00,
+        "seats_available": 38
+      },
+      "premium_economy": {
+        "price": 590.00,
+        "seats_available": 9
+      },
+      "business": {
+        "price": 1150.00,
+        "seats_available": 3
+      },
+      "first_class": {
+        "price": 2600.00,
+        "seats_available": 1
+      }
+    },
+    "is_direct": true,
+    "nearby_airports": ["SIN"],
+    "trip_types_supported": ["one_way", "round_trip", "multi_city"]
+  },
+  {
+    "flight_number": "KL1010",
+    "airline": "KLM",
+    "from": "Paris (CDG)",
+    "to": "Frankfurt (FRA)",
+    "departure": "2025-07-16T07:45:00",
+    "arrival": "2025-07-16T09:00:00",
+    "price": 120.00,
+    "aircraft": "Airbus A319",
+    "duration": "1h 15m",
+    "stops": 0,
+    "seats_available": 28,
+    "travel_classes": {
+      "economy": {
+        "price": 120.00,
+        "seats_available": 22
+      },
+      "premium_economy": {
+        "price": 220.00,
+        "seats_available": 4
+      },
+      "business": {
+        "price": 450.00,
+        "seats_available": 2
+      },
+      "first_class": {
+        "price": 800.00,
+        "seats_available": 0
+      }
+    },
+    "is_direct": true,
+    "nearby_airports": ["ORY", "BVA"],
+    "trip_types_supported": ["one_way", "round_trip", "multi_city"]
+  },
+  {
+    "flight_number": "VS1111",
+    "airline": "Virgin Atlantic",
+    "from": "New York (NYC)",
+    "to": "Los Angeles (LAX)",
+    "departure": "2025-07-17T11:00:00",
+    "arrival": "2025-07-17T14:30:00",
+    "price": 350.00,
+    "aircraft": "Boeing 737",
+    "duration": "5h 30m",
+    "stops": 0,
+    "seats_available": 47,
+    "travel_classes": {
+      "economy": {
+        "price": 350.00,
+        "seats_available": 36
+      },
+      "premium_economy": {
+        "price": 520.00,
+        "seats_available": 8
+      },
+      "business": {
+        "price": 980.00,
+        "seats_available": 3
+      },
+      "first_class": {
+        "price": 1800.00,
+        "seats_available": 0
+      }
+    },
+    "is_direct": true,
+    "nearby_airports": ["JFK", "LGA", "EWR"],
+    "trip_types_supported": ["one_way", "round_trip", "multi_city"]
+  },
+  {
+    "flight_number": "QR1212",
+    "airline": "Qatar Airways",
+    "from": "London (LHR)",
+    "to": "Dubai (DXB)",
+    "departure": "2025-07-18T21:40:00",
+    "arrival": "2025-07-19T07:20:00",
+    "price": 480.00,
+    "aircraft": "Boeing 787",
+    "duration": "6h 40m",
+    "stops": 0,
+    "seats_available": 33,
+    "travel_classes": {
+      "economy": {
+        "price": 480.00,
+        "seats_available": 24
+      },
+      "premium_economy": {
+        "price": 720.00,
+        "seats_available": 6
+      },
+      "business": {
+        "price": 1400.00,
+        "seats_available": 2
+      },
+      "first_class": {
+        "price": 2700.00,
+        "seats_available": 1
+      }
+    },
+    "is_direct": true,
+    "nearby_airports": ["LGW", "STN", "LTN"],
+    "trip_types_supported": ["one_way", "round_trip", "multi_city"]
+  },
+  {
+    "flight_number": "ANA1313",
+    "airline": "All Nippon Airways",
+    "from": "Tokyo (NRT)",
+    "to": "Singapore (SIN)",
+    "departure": "2025-07-19T13:25:00",
+    "arrival": "2025-07-19T19:10:00",
+    "price": 400.00,
+    "aircraft": "Airbus A330",
+    "duration": "6h 45m",
+    "stops": 0,
+    "seats_available": 44,
+    "travel_classes": {
+      "economy": {
+        "price": 400.00,
+        "seats_available": 32
+      },
+      "premium_economy": {
+        "price": 610.00,
+        "seats_available": 8
+      },
+      "business": {
+        "price": 1200.00,
+        "seats_available": 3
+      },
+      "first_class": {
+        "price": 2400.00,
+        "seats_available": 1
+      }
+    },
+    "is_direct": true,
+    "nearby_airports": ["HND"],
+    "trip_types_supported": ["one_way", "round_trip", "multi_city"]
+  },
+  {
+    "flight_number": "TK1414",
+    "airline": "Turkish Airlines",
+    "from": "Frankfurt (FRA)",
+    "to": "Dubai (DXB)",
+    "departure": "2025-07-20T15:50:00",
+    "arrival": "2025-07-20T23:30:00",
+    "price": 450.00,
+    "aircraft": "Airbus A340",
+    "duration": "5h 40m",
+    "stops": 0,
+    "seats_available": 29,
+    "travel_classes": {
+      "economy": {
+        "price": 450.00,
+        "seats_available": 20
+      },
+      "premium_economy": {
+        "price": 680.00,
+        "seats_available": 6
+      },
+      "business": {
+        "price": 1350.00,
+        "seats_available": 2
+      },
+      "first_class": {
+        "price": 2650.00,
+        "seats_available": 1
+      }
+    },
+    "is_direct": true,
+    "nearby_airports": ["CGN", "DUS"],
+    "trip_types_supported": ["one_way", "round_trip", "multi_city"]
+  }
+]
