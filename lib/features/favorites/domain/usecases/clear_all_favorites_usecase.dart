@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+import 'package:flightapp/core/utils/errors/failure.dart';
 import '../repositories/favorites_repository.dart';
 
 class ClearAllFavoritesUseCase {
@@ -5,7 +7,7 @@ class ClearAllFavoritesUseCase {
 
   const ClearAllFavoritesUseCase(this.repository);
 
-  Future<void> call() async {
-    await repository.clearAllFavorites();
+  Future<Either<Failure, String>> call() async {
+    return await repository.clearAllFavorites();
   }
 }

@@ -1,7 +1,8 @@
-import '../../domain/entities/favorite_flight.dart';
+import 'package:dartz/dartz.dart';
+import 'package:flightapp/core/utils/errors/failure.dart';
+import 'package:flightapp/features/flight_search/domain/entities/flight.dart';
 import '../../domain/repositories/favorites_repository.dart';
 import '../datasources/favorites_local_data_source.dart';
-import '../models/favorite_flight_model.dart';
 
 class FavoritesRepositoryImpl implements FavoritesRepository {
   final FavoritesLocalDataSource localDataSource;
@@ -9,20 +10,34 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   const FavoritesRepositoryImpl({required this.localDataSource});
 
   @override
-  Future<List<FavoriteFlight>> getAllFavorites() async {
-    final models = await localDataSource.getAllFavorites();
-    return models.map((model) => model.toEntity()).toList();
+  Future<Either<Failure, List<Flight>>> getAllFavorites() async {
+    try {
+      final models = await localDataSource.getAllFavorites();
+      final flights = models.map((model) => model).toList();
+      return Right(flights);
+    } on Exception catch (e) {
+      return Left(Failure(e.toString()));
+    }
   }
 
   @override
-  Future<void> addFavorite(FavoriteFlight favorite) async {
-    final model = FavoriteFlightModel.fromEntity(favorite);
-    await localDataSource.addFavorite(model);
+  Future<Either<Failure, String>> addFavorite(Flight favorite) async {
+    try {
+      await localDataSource.addFavorite(favorite);
+      return const Right('Flight added to favorites successfully');
+    } on Exception catch (e) {
+      return Left(Failure(e.toString()));
+    }
   }
 
   @override
-  Future<void> removeFavorite(String flightNumber) async {
-    await localDataSource.removeFavorite(flightNumber);
+  Future<Either<Failure, String>> removeFavorite(String flightNumber) async {
+    try {
+      await localDataSource.removeFavorite(flightNumber);
+      return const Right('Flight removed from favorites successfully');
+    } on Exception catch (e) {
+      return Left(Failure(e.toString()));
+    }
   }
 
   @override
@@ -31,7 +46,12 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   }
 
   @override
-  Future<void> clearAllFavorites() async {
-    await localDataSource.clearAllFavorites();
+  Future<Either<Failure, String>> clearAllFavorites() async {
+    try {
+      await localDataSource.clearAllFavorites();
+      return const Right('All favorites cleared successfully');
+    } on Exception catch (e) {
+      return Left(Failure(e.toString()));
+    }
   }
 }

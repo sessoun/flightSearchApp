@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../providers/flight_search_provider.dart';
+import '../widgets/flight_card.dart';
 import '../../domain/entities/flight.dart';
 import '../../domain/entities/request.dart';
 import 'flight_detail_screen.dart';
@@ -63,7 +65,7 @@ class _SearchResultScreenState extends ConsumerState<SearchResultScreen> {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => context.pop(),
                 child: const Text('Go Back'),
               ),
             ],
@@ -195,82 +197,43 @@ class _SearchResultScreenState extends ConsumerState<SearchResultScreen> {
             padding: const EdgeInsets.all(16),
             itemCount: flights.length,
             itemBuilder: (context, index) {
-              return _buildFlightCard(flights[index], searchRequest);
-            },
-          ),
-        ),
-      ],
-    );
-  }
+              final flight = flights[index];
+              final selectedTravelClass =
+                  searchRequest?.travelClass ?? 'Economy';
+              final classPrice = flight.getPriceForClass(selectedTravelClass);
+              final classSeats = flight.getSeatsForClass(selectedTravelClass);
 
-  Widget _buildFlightCard(Flight flight, FlightSearchRequest? searchRequest) {
-    final departureTime = DateTime.parse(flight.departure);
-    final arrivalTime = DateTime.parse(flight.arrival);
+              // Format travel class for display
+              final displayClass = selectedTravelClass == 'Premium Economy'
+                  ? 'Premium Eco'
+                  : selectedTravelClass;
 
-    // Get the selected travel class and corresponding price/seats
-    final selectedTravelClass = searchRequest?.travelClass ?? 'Economy';
-    final classPrice = flight.getPriceForClass(selectedTravelClass);
-    final classSeats = flight.getSeatsForClass(selectedTravelClass);
-
-    // Format travel class for display
-    final displayClass = selectedTravelClass == 'Premium Economy'
-        ? 'Premium Eco'
-        : selectedTravelClass;
-
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => FlightDetailScreen(
-              flight: flight,
-              searchRequest: searchRequest,
-            ),
-          ),
-        );
-      },
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 16),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            // Price and class header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF2E5266),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Text(
-                        '\$${classPrice.toStringAsFixed(0)} • $displayClass',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
+              return FlightCard(
+                flight: flight,
+                priceLabel: '\$${classPrice.toStringAsFixed(0)}',
+                travelClass: displayClass,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FlightDetailScreen(
+                        flight: flight,
+                        searchRequest: searchRequest,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                  );
+                },
+                trailingAction: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      '\$${classPrice.toStringAsFixed(0)}',
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
                     Text(
                       '$classSeats seats available',
                       style: TextStyle(
@@ -285,177 +248,11 @@ class _SearchResultScreenState extends ConsumerState<SearchResultScreen> {
                     ),
                   ],
                 ),
-                Text(
-                  '\$${classPrice.toStringAsFixed(0)}',
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-
-            // Airline logo and info
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: const Color(0xFF2E5266),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                children: [
-                  // Airline logo area
-                  Container(
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(
-                      child: Text(
-                        flight.airline,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF2E5266),
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  // Flight details
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        flight.stops == 0
-                            ? 'Non-stop'
-                            : '${flight.stops} Stop${flight.stops > 1 ? 's' : ''}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
-                      ),
-                      Text(
-                        flight.aircraft,
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            flight.airline,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            flight.flightNumber,
-                            style: const TextStyle(
-                              color: Colors.white70,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        flight.duration,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 16),
-
-            // Flight time details
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      DateFormat.jm().format(departureTime),
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    Text(
-                      '${_extractAirportCode(flight.from)} • ${_extractCityName(flight.from)}',
-                      style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      flight.duration,
-                      style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(vertical: 4),
-                      width: 60,
-                      height: 2,
-                      color: Colors.grey[300],
-                    ),
-                    Container(
-                      width: 8,
-                      height: 8,
-                      decoration: const BoxDecoration(
-                        color: Colors.blue,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      DateFormat.jm().format(arrivalTime),
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    Text(
-                      '${_extractAirportCode(flight.to)} • ${_extractCityName(flight.to)}',
-                      style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+              );
+            },
+          ),
         ),
-      ),
+      ],
     );
   }
 

@@ -1,3 +1,6 @@
+import 'package:dartz/dartz.dart';
+import 'package:flightapp/core/utils/errors/failure.dart';
+
 import '../repositories/favorites_repository.dart';
 
 class RemoveFavoriteUseCase {
@@ -5,7 +8,7 @@ class RemoveFavoriteUseCase {
 
   const RemoveFavoriteUseCase(this.repository);
 
-  Future<void> call(String flightNumber) async {
-    await repository.removeFavorite(flightNumber);
+  Future<Either<Failure, String>> call(String flightNumber) async {
+   return await repository.removeFavorite(flightNumber);
   }
 }

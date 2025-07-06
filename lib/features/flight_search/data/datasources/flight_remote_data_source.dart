@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flightapp/core/utils/custom_print.dart';
 import 'package:flutter/services.dart';
 import '../models/flight_model.dart';
 import '../models/flight_search_request_model.dart';
@@ -12,22 +13,22 @@ class MockFlightRemoteDataSource implements FlightRemoteDataSource {
   Future<List<FlightModel>> searchFlights(
     FlightSearchRequestModel request,
   ) async {
-    print('🔍 Starting flight search...');
+    miPrint('🔍 Starting flight search...');
     final searchJson = request.toJson();
-    print('📋 Search criteria: $searchJson');
-    print('🔧 Using enhanced filtering with all search parameters');
+    miPrint('📋 Search criteria: $searchJson');
+    miPrint('🔧 Using enhanced filtering with all search parameters');
 
     await Future.delayed(const Duration(seconds: 1));
 
     try {
       final data = await rootBundle.loadString('assets/mock/flights.json');
-      print('📄 JSON data loaded successfully');
+      miPrint('📄 JSON data loaded successfully');
 
       final decoded = jsonDecode(data) as List;
-      print('📋 Total flights in JSON: ${decoded.length}');
+      miPrint('📋 Total flights in JSON: ${decoded.length}');
 
       final allFlights = decoded.map((e) => FlightModel.fromJson(e)).toList();
-      print('✅ Flights converted to models: ${allFlights.length}');
+      miPrint('✅ Flights converted to models: ${allFlights.length}');
 
       // Filter flights based on search criteria
       final filteredFlights = allFlights.where((flight) {
@@ -58,26 +59,26 @@ class MockFlightRemoteDataSource implements FlightRemoteDataSource {
         final classSeats = flight.getSeatsForClass(request.travelClass);
         final classCapacityMatch = classSeats >= request.passengers;
 
-        print('🔎 Checking flight ${flight.flightNumber}:');
-        print('   From: "${flight.from}" vs "${request.from}" = $fromMatch');
-        print('   To: "${flight.to}" vs "${request.to}" = $toMatch');
-        print(
+        miPrint('🔎 Checking flight ${flight.flightNumber}:');
+        miPrint('   From: "${flight.from}" vs "${request.from}" = $fromMatch');
+        miPrint('   To: "${flight.to}" vs "${request.to}" = $toMatch');
+        miPrint(
           '   Date: ${flightDate.day}/${flightDate.month}/${flightDate.year} vs ${searchDate.day}/${searchDate.month}/${searchDate.year} = $dateMatch',
         );
-        print(
+        miPrint(
           '   Direct filter: ${flight.stops == 0} (required: ${request.directFlightsOnly}) = $directMatch',
         );
-        print(
+        miPrint(
           '   Travel class: ${request.travelClass} - Available seats: $classSeats >= ${request.passengers} = $classCapacityMatch',
         );
-        print(
+        miPrint(
           '   Class price: \$${flight.getPriceForClass(request.travelClass).toStringAsFixed(2)}',
         );
-        print('   Trip type: ${request.tripType}');
-        print(
+        miPrint('   Trip type: ${request.tripType}');
+        miPrint(
           '   Overall match: ${fromMatch && toMatch && dateMatch && directMatch && classCapacityMatch}',
         );
-        print('   ---');
+        miPrint('   ---');
 
         return fromMatch &&
             toMatch &&
@@ -86,14 +87,14 @@ class MockFlightRemoteDataSource implements FlightRemoteDataSource {
             classCapacityMatch;
       }).toList();
 
-      print('🎯 Filtered flights found: ${filteredFlights.length}');
+      miPrint('🎯 Filtered flights found: ${filteredFlights.length}');
       for (final flight in filteredFlights) {
-        print('✈️ ${flight.flightNumber}: ${flight.from} → ${flight.to}');
+        miPrint('✈️ ${flight.flightNumber}: ${flight.from} → ${flight.to}');
       }
 
       return filteredFlights;
     } catch (e) {
-      print('❌ Error loading flights: $e');
+      miPrint('❌ Error loading flights: $e');
       rethrow;
     }
   }

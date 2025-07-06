@@ -1,16 +1,36 @@
+import 'package:hive/hive.dart';
+
+part 'flight.g.dart';
+
+
+@HiveType(typeId: 0)
 class Flight {
+  
+  @HiveField(1)
   final String flightNumber;
+  @HiveField(2)
   final String airline;
+@HiveField(3)
   final String from;
+@HiveField(4)
   final String to;
+@HiveField(5)
   final String departure;
+@HiveField(6)
   final String arrival;
+@HiveField(7)
   final double price;
+@HiveField(8)
   final String aircraft;
+@HiveField(9)
   final String duration;
+@HiveField(10)
   final int stops;
+@HiveField(11)
   final int seatsAvailable;
+@HiveField(12)
   final Map<String, TravelClass>? travelClasses;
+
 
   Flight({
     required this.flightNumber,
@@ -44,8 +64,12 @@ class Flight {
   }
 }
 
+
+@HiveType(typeId: 1)
 class TravelClass {
+  @HiveField(0)
   final double price;
+  @HiveField(1)
   final int seatsAvailable;
 
   TravelClass({required this.price, required this.seatsAvailable});

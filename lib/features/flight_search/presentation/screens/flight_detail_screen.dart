@@ -1,10 +1,8 @@
-import 'package:flightapp/features/favorites/domain/entities/favorite_flight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import '../../domain/entities/flight.dart';
 import '../../domain/entities/request.dart';
-import '../../../favorites/data/models/favorite_flight_model.dart';
 import '../../../favorites/presentation/providers/favorites_provider.dart';
 
 class FlightDetailScreen extends ConsumerWidget {
@@ -61,10 +59,9 @@ class FlightDetailScreen extends ConsumerWidget {
                   color: isFavorite ? Colors.red : Colors.black,
                 ),
                 onPressed: () async {
-                  final favoriteFlight = FavoriteFlight(
+                  final favoriteFlight = Flight(
                     flightNumber: flight.flightNumber,
                     seatsAvailable: flight.seatsAvailable,
-                    favoriteDate: DateTime.now(),
                     airline: flight.airline,
                     from: flight.from,
                     to: flight.to,
@@ -74,7 +71,7 @@ class FlightDetailScreen extends ConsumerWidget {
                     aircraft: flight.aircraft,
                     duration: flight.duration,
                     stops: flight.stops,
-                    travelClass: selectedTravelClass,
+                    travelClasses: flight.travelClasses,
                   );
 
                   await favoritesNotifier.toggleFavorite(favoriteFlight);

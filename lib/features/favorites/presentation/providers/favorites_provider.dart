@@ -1,5 +1,5 @@
+import 'package:flightapp/features/flight_search/domain/entities/flight.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/favorite_flight.dart';
 import '../../domain/repositories/favorites_repository.dart';
 import '../../domain/usecases/get_all_favorites_usecase.dart';
 import '../../domain/usecases/add_favorite_usecase.dart';
@@ -56,11 +56,8 @@ final clearAllFavoritesUseCaseProvider = Provider<ClearAllFavoritesUseCase>((
 
 // State notifier provider
 final favoritesProvider =
-    StateNotifierProvider<FavoritesNotifier, AsyncValue<List<FavoriteFlight>>>((
-      ref,
-    ) {
+    StateNotifierProvider<FavoritesNotifier, AsyncValue<List<Flight>>>((ref) {
       final getAllFavoritesUseCase = ref.watch(getAllFavoritesUseCaseProvider);
-      final addFavoriteUseCase = ref.watch(addFavoriteUseCaseProvider);
       final removeFavoriteUseCase = ref.watch(removeFavoriteUseCaseProvider);
       final isFavoriteUseCase = ref.watch(isFavoriteUseCaseProvider);
       final toggleFavoriteUseCase = ref.watch(toggleFavoriteUseCaseProvider);
@@ -70,7 +67,6 @@ final favoritesProvider =
 
       return FavoritesNotifier(
         getAllFavoritesUseCase: getAllFavoritesUseCase,
-        addFavoriteUseCase: addFavoriteUseCase,
         removeFavoriteUseCase: removeFavoriteUseCase,
         isFavoriteUseCase: isFavoriteUseCase,
         toggleFavoriteUseCase: toggleFavoriteUseCase,
@@ -78,10 +74,8 @@ final favoritesProvider =
       );
     });
 
-class FavoritesNotifier
-    extends StateNotifier<AsyncValue<List<FavoriteFlight>>> {
+class FavoritesNotifier extends StateNotifier<AsyncValue<List<Flight>>> {
   final GetAllFavoritesUseCase _getAllFavoritesUseCase;
-  final AddFavoriteUseCase _addFavoriteUseCase;
   final RemoveFavoriteUseCase _removeFavoriteUseCase;
   final IsFavoriteUseCase _isFavoriteUseCase;
   final ToggleFavoriteUseCase _toggleFavoriteUseCase;
@@ -89,13 +83,11 @@ class FavoritesNotifier
 
   FavoritesNotifier({
     required GetAllFavoritesUseCase getAllFavoritesUseCase,
-    required AddFavoriteUseCase addFavoriteUseCase,
     required RemoveFavoriteUseCase removeFavoriteUseCase,
     required IsFavoriteUseCase isFavoriteUseCase,
     required ToggleFavoriteUseCase toggleFavoriteUseCase,
     required ClearAllFavoritesUseCase clearAllFavoritesUseCase,
   }) : _getAllFavoritesUseCase = getAllFavoritesUseCase,
-       _addFavoriteUseCase = addFavoriteUseCase,
        _removeFavoriteUseCase = removeFavoriteUseCase,
        _isFavoriteUseCase = isFavoriteUseCase,
        _toggleFavoriteUseCase = toggleFavoriteUseCase,
@@ -107,20 +99,27 @@ class FavoritesNotifier
   Future<void> loadFavorites() async {
     try {
       state = const AsyncValue.loading();
-      final favorites = await _getAllFavoritesUseCase();
-      state = AsyncValue.data(favorites);
+      final result = await _getAllFavoritesUseCase();
+      result.fold(
+        (failure) =>
+            state = AsyncValue.error(failure.message, StackTrace.current),
+        (favorites) => state = AsyncValue.data(favorites),
+      );
     } catch (error, stackTrace) {
       state = AsyncValue.error(error, stackTrace);
     }
   }
 
-  Future<void> toggleFavorite(FavoriteFlight favorite) async {
-    try {
-      await _toggleFavoriteUseCase(favorite);
-      await loadFavorites(); // Refresh the list
-    } catch (error, stackTrace) {
-      state = AsyncValue.error(error, stackTrace);
-    }
+  Future<void> toggleFavorite(Flight favorite) async {
+    final result = await _toggleFavoriteUseCase(favorite);
+    result.fold(
+      (failure) {
+        state = AsyncValue.error(failure.message, StackTrace.current);
+      },
+      (message) {
+        loadFavorites(); // Refresh the list on success
+      },
+    );
   }
 
   Future<bool> isFavorite(String flightNumber) async {
@@ -132,20 +131,26 @@ class FavoritesNotifier
   }
 
   Future<void> removeFavorite(String flightNumber) async {
-    try {
-      await _removeFavoriteUseCase(flightNumber);
-      await loadFavorites(); // Refresh the list
-    } catch (error, stackTrace) {
-      state = AsyncValue.error(error, stackTrace);
-    }
+    final result = await _removeFavoriteUseCase(flightNumber);
+    result.fold(
+      (failure) {
+        state = AsyncValue.error(failure.message, StackTrace.current);
+      },
+      (message) {
+        loadFavorites(); // Refresh the list on success
+      },
+    );
   }
 
   Future<void> clearAll() async {
-    try {
-      await _clearAllFavoritesUseCase();
-      await loadFavorites(); // Refresh the list
-    } catch (error, stackTrace) {
-      state = AsyncValue.error(error, stackTrace);
-    }
+    final result = await _clearAllFavoritesUseCase();
+    result.fold(
+      (failure) {
+        state = AsyncValue.error(failure.message, StackTrace.current);
+      },
+      (message) {
+        loadFavorites(); // Refresh the list on success
+      },
+    );
   }
 }

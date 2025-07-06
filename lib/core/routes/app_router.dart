@@ -1,5 +1,7 @@
 import 'package:flightapp/features/flight_search/presentation/screens/search_result_screen.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
+import '../animations/custom_page_transitions.dart';
 import '../../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../../features/flight_search/presentation/screens/flight_search_screen.dart';
 import '../../features/favorites/presentation/screens/favorites_screen.dart';
@@ -11,15 +13,30 @@ class AppRouter {
       GoRoute(path: '/', builder: (context, state) => const OnboardingScreen()),
       GoRoute(
         path: '/search',
-        builder: (context, state) => const FlightSearchScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const FlightSearchScreen(),
+          transitionsBuilder: CustomPageTransitions.morphTransitionBuilder,
+          transitionDuration: const Duration(milliseconds: 800),
+        ),
       ),
       GoRoute(
         path: '/search/result',
-        builder: (context, state) => const SearchResultScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const SearchResultScreen(),
+          transitionsBuilder: CustomPageTransitions.slideTransitionBuilder,
+          transitionDuration: const Duration(milliseconds: 600),
+        ),
       ),
       GoRoute(
         path: '/favorites',
-        builder: (context, state) => const FavoritesScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const FavoritesScreen(),
+          transitionsBuilder: CustomPageTransitions.liquidTransitionBuilder,
+          transitionDuration: const Duration(milliseconds: 700),
+        ),
       ),
     ],
   );

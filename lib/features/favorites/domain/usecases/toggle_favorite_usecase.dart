@@ -1,4 +1,6 @@
-import '../entities/favorite_flight.dart';
+import 'package:dartz/dartz.dart';
+import 'package:flightapp/core/utils/errors/failure.dart';
+import 'package:flightapp/features/flight_search/domain/entities/flight.dart';
 import '../repositories/favorites_repository.dart';
 
 class ToggleFavoriteUseCase {
@@ -6,13 +8,13 @@ class ToggleFavoriteUseCase {
 
   const ToggleFavoriteUseCase(this.repository);
 
-  Future<void> call(FavoriteFlight favorite) async {
-    final isFavorite = await repository.isFavorite(favorite.flightNumber);
+  Future<Either<Failure, String>> call(Flight flight) async {
+    final isFavorite = await repository.isFavorite(flight.flightNumber);
 
     if (isFavorite) {
-      await repository.removeFavorite(favorite.flightNumber);
+      return await repository.removeFavorite(flight.flightNumber);
     } else {
-      await repository.addFavorite(favorite);
+      return await repository.addFavorite(flight);
     }
   }
 }

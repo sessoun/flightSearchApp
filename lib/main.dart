@@ -1,12 +1,12 @@
 // File: lib/main.dart
 
+import 'package:flightapp/core/utils/custom_print.dart';
+import 'package:flightapp/features/flight_search/domain/entities/flight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'core/routes/app_router.dart';
 import 'core/theme/app_theme.dart';
-import 'features/favorites/data/models/favorite_flight_model.dart';
-import 'features/favorites/data/datasources/favorites_hive_data_source.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,11 +15,19 @@ void main() async {
   await Hive.initFlutter();
 
   // Register Hive adapters
-  Hive.registerAdapter(FavoriteFlightModelAdapter());
+  Hive
+    ..registerAdapter(FlightAdapter())
+    ..registerAdapter(TravelClassAdapter());
 
-  // Initialize favorites data source
-  final favoritesDataSource = FavoritesHiveDataSource();
-  await favoritesDataSource.init();
+  try {
+    // Initialize favorites data source
+    await Hive.openBox<Flight>('favorites');
+  } catch (e) {
+    // If there's a RangeError, delete the corrupted box and recreate it
+    miPrint('Error opening favorites box: $e');
+    await Hive.deleteBoxFromDisk('favorites');
+    await Hive.openBox<Flight>('favorites');
+  }
 
   runApp(const ProviderScope(child: FlightSearchApp()));
 }

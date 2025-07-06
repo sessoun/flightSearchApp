@@ -1,9 +1,11 @@
-import '../entities/favorite_flight.dart';
+import 'package:dartz/dartz.dart';
+import 'package:flightapp/core/utils/errors/failure.dart';
+import 'package:flightapp/features/flight_search/domain/entities/flight.dart';
 
 abstract class FavoritesRepository {
-  Future<List<FavoriteFlight>> getAllFavorites();
-  Future<void> addFavorite(FavoriteFlight favorite);
-  Future<void> removeFavorite(String flightNumber);
+  Future<Either<Failure,List<Flight>>> getAllFavorites();
+  Future<Either<Failure, String>> addFavorite(Flight favorite);
+  Future<Either<Failure, String>> removeFavorite(String flightNumber);
   Future<bool> isFavorite(String flightNumber);
-  Future<void> clearAllFavorites();
+  Future<Either<Failure, String>> clearAllFavorites();
 }
