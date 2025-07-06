@@ -13,12 +13,7 @@ class AppRouter {
       GoRoute(path: '/', builder: (context, state) => const OnboardingScreen()),
       GoRoute(
         path: '/search',
-        pageBuilder: (context, state) => CustomTransitionPage(
-          key: state.pageKey,
-          child: const FlightSearchScreen(),
-          transitionsBuilder: CustomPageTransitions.morphTransitionBuilder,
-          transitionDuration: const Duration(milliseconds: 800),
-        ),
+        builder: (context, state) => const FlightSearchScreen(),
       ),
       GoRoute(
         path: '/search/result',

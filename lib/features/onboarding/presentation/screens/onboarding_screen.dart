@@ -131,7 +131,7 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                     child: ElevatedButton(
                       onPressed: () {
                         if (_currentPage == pages.length - 1) {
-                          context.pushReplacement('/search');
+                          context.go('/search');
                         } else {
                           _controller.nextPage(
                             duration: const Duration(milliseconds: 400),

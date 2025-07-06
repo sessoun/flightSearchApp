@@ -1,6 +1,5 @@
 // File: lib/main.dart
 
-import 'package:flightapp/core/utils/custom_print.dart';
 import 'package:flightapp/features/flight_search/domain/entities/flight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,15 +18,9 @@ void main() async {
     ..registerAdapter(FlightAdapter())
     ..registerAdapter(TravelClassAdapter());
 
-  try {
-    // Initialize favorites data source
-    await Hive.openBox<Flight>('favorites');
-  } catch (e) {
-    // If there's a RangeError, delete the corrupted box and recreate it
-    miPrint('Error opening favorites box: $e');
-    await Hive.deleteBoxFromDisk('favorites');
-    await Hive.openBox<Flight>('favorites');
-  }
+  await Hive.deleteBoxFromDisk('favorites');
+  // Initialize favorites data source
+  await Hive.openBox<Flight>('favorites');
 
   runApp(const ProviderScope(child: FlightSearchApp()));
 }
