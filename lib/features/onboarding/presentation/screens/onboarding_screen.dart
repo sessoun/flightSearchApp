@@ -169,7 +169,6 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   }
 
   Widget _buildFloatingParticle(int index) {
-    final random = index * 0.1;
     return Positioned(
       left: (index % 5) * 80.0 + 20,
       top: (index ~/ 5) * 150.0 + 100,

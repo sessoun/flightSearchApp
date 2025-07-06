@@ -1,7 +1,7 @@
 import 'package:flightapp/features/flight_search/domain/entities/flight.dart';
 
 class FlightModel extends Flight {
-  FlightModel({
+  const FlightModel({
     required super.flightNumber,
     required super.airline,
     required super.from,

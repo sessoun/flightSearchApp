@@ -5,8 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import '../../data/models/flight_search_request_model.dart';
-import '../../../../core/animations/animated_background.dart';
-import '../../../../core/animations/floating_animations.dart';
 
 class FlightSearchScreen extends ConsumerStatefulWidget {
   const FlightSearchScreen({super.key});

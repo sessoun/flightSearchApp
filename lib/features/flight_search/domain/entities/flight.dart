@@ -33,7 +33,7 @@ class Flight extends Equatable{
   final Map<String, TravelClass>? travelClasses;
 
 
-  Flight({
+  const Flight({
     required this.flightNumber,
     required this.airline,
     required this.from,

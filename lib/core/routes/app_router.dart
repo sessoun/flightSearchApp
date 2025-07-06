@@ -1,6 +1,5 @@
 import 'package:flightapp/features/flight_search/presentation/screens/search_result_screen.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter/material.dart';
 import '../animations/custom_page_transitions.dart';
 import '../../features/onboarding/presentation/screens/onboarding_screen.dart';
 import '../../features/flight_search/presentation/screens/flight_search_screen.dart';

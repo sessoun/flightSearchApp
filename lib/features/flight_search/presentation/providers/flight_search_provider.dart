@@ -4,7 +4,6 @@ import '../../data/datasources/flight_remote_data_source.dart';
 import '../../data/repositories/flight_repository_impl.dart';
 import '../../domain/entities/flight.dart';
 import '../../domain/usecases/search_flights_usecase.dart';
-import '../../data/models/flight_search_request_model.dart';
 
 class FlightSearchState {
   final AsyncValue<List<Flight>> flights;
