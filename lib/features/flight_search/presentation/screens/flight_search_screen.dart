@@ -34,14 +34,16 @@ class _FlightSearchScreenState extends ConsumerState<FlightSearchScreen> {
   }
 
   final _cities = [
+    'Accra (ACC)',
+    'Lagos (LOS)',
     'New York (NYC)',
     'London (LHR)',
     'Paris (CDG)',
     'Tokyo (NRT)',
-    'Los Angeles (LAX)',
     'Dubai (DXB)',
     'Singapore (SIN)',
-    'Frankfurt (FRA)',
+    'Los Angeles (LAX)',
+    'Cape Town (CPT)',
   ];
 
   @override
@@ -409,7 +411,7 @@ class _FlightSearchScreenState extends ConsumerState<FlightSearchScreen> {
         onTap: () async {
           final picked = await showDatePicker(
             context: context,
-            initialDate: DateTime.now(),
+            initialDate: _selectedDate ?? DateTime.now(),
             firstDate: DateTime.now(),
             lastDate: DateTime.now().add(const Duration(days: 365)),
           );

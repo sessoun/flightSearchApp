@@ -47,10 +47,10 @@ class MockFlightRemoteDataSource implements FlightRemoteDataSource {
         // Date matching
         final flightDate = DateTime.parse(flight.departure);
         final searchDate = request.date;
+
         final dateMatch =
-            flightDate.year == searchDate.year &&
-            flightDate.month == searchDate.month &&
-            flightDate.day == searchDate.day;
+            flightDate.isAfter(searchDate) &&
+            flightDate.isBefore(searchDate.add(const Duration(days: 3)));
 
         // Direct flights filter
         final directMatch = !request.directFlightsOnly || flight.stops == 0;
