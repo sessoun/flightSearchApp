@@ -22,7 +22,7 @@ A Flutter application for searching and managing flight bookings with favorites 
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/sessoun/flightSearchApp
    cd flightapp
    ```
 
@@ -78,7 +78,7 @@ lib/
 │   └── onboarding/          # Onboarding feature
 └── main.dart                # App entry point
 
-test/                        # Unit and widget tests
+test/                        # Unit tests
 ```
 
 ## Architecture
